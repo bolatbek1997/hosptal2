@@ -1,0 +1,42 @@
+﻿@model List<Hospital.Server.Models.DoctorViewModel>
+@using Hospital.DatabaseModels
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+         
+        </div>
+
+        <div class="col-lg-6">
+            <a href="@Url.Action("AddDoctor", "Administration")" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Қосу</a>
+        </div>
+    </div>
+    </br>
+    <div style="height: 800px; overflow: auto">
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th>Аты</th>
+                    <th>Бөлімі</th>
+                    <th>Ақпарат</th>
+                    <th>Жою</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doctor in Model)
+            {
+                    <tr>
+                        <td>@doctor.Name</td>
+                        <td>@doctor.SpecialityTitle</td>
+                        <td> <a class="btn btn-blog pull-right marginBottom10" href="@Url.Action("GetDoctorById", "Doctors", new { id = doctor.Id })">толығырақ</a></td>
+                        <td><a href="@Url.Action("DeleteDoctor", "Administration", new { id = doctor.Id })" class="fa fa-times"></a></td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

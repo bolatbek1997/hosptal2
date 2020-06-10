@@ -1,0 +1,50 @@
+﻿@using Hospital.Server.Models
+@using Hospital.Data.Constants
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul>
+            @if (Request.IsAuthenticated && User.IsInRole(GlobalConstants.adminRoleName))
+            {
+                <li style="margin:5px;">
+                    <a href="@Url.Action("Messages", "Administration")" class="icon-info">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                        <span class="label label-primary">@Html.Action("CountMessage", "Administration")</span>
+                    </a>
+                </li>
+            }
+            <li style="margin:5px;">
+                @Html.ActionLink(User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li style="margin:5px;"><a href="javascript:document.getElementById('logoutForm').submit()">Шығу</a></li>
+        </ul>
+    }
+}
+else
+{
+    <a href="#" data-toggle="modal" data-target="#login-modal">Кіру</a>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="loginmodal-container">
+                <h1>Жеке кабинетке кіру</h1><br>
+                <form action="~/Account/Login" , method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="text" name="Email" placeholder="Email">
+                    <input type="password" name="Password" placeholder="Құпия сөз">
+                    <input type="submit" name="Кіру" class="login loginmodal-submit" value="Login">
+                </form>
+                <div class="login-help">
+                    <a href="@Url.Action("Register", "Account")">Тіркелу</a> - <a href="@Url.Action("ForgotPassword", "Account")">Құпия сөзді қалпына келтіру</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/bootstrap")
+}
+

@@ -1,0 +1,43 @@
+﻿@model List<Hospital.Server.Models.TrialViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+           
+        </div>
+
+        <div class="col-lg-6">
+            <a href="@Url.Action("AddTrial", "Administration")" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Қосу</a>
+        </div>
+    </div>
+    </br>
+    <div style="height: 800px; overflow: auto">
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th>Аты </th>
+                    <td>Қол жетімділігі</td>
+                    <th>Бөлімі</th>
+                    <th>Бағасы</th>
+                    <th>Жою</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var trial in Model)
+                {
+                    <tr>
+                        <td>@trial.Title</td>
+                        <td>@trial.IsAvailable</td>
+                        <td>@trial.SpecialityTitle</td>
+                        <td>@trial.Price</td>
+                        <td><a href="@Url.Action("DeleteTrial", "Administration", new { id = trial.Id })" class="fa fa-times"></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

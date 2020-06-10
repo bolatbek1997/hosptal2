@@ -1,0 +1,51 @@
+﻿@model List<Hospital.Server.Models.TrialViewModel>
+@using Hospital.DatabaseModels
+
+<section class="features_table">
+    <div class="container ">
+        <div class="col-sm-8 col-8 col-xs-12 no-padding">
+            <div class="features-table">
+                <ul>
+                    <h3>Ем түрлері</h3>
+                    @foreach (var trial in Model)
+                    {
+                        <li>@trial.Title</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        @*<div class="col-sm-2 col-2 col-xs-12 no-padding">
+            <div class="features-table-free">
+                <ul>
+                    <h3>Қол жетімділігі</h3>
+                    @foreach (var trial in Model)
+                    {
+                        if (trial.IsAvailable == IsAvailable.Yes)
+                        {
+                            <li><i class="fa fa-check"></i></li>
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-times"></i></li>
+                        }
+                    }
+
+                </ul>
+            </div>
+
+        </div>*@
+        <div class="col-sm-2 col-2 col-xs-12 no-padding">
+            <div class="features-table-paid">
+                <ul>
+                    <h3>Бағасы</h3>
+                    @foreach (var trial in Model)
+                    {
+                        <li id="price">@trial.Price</li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>

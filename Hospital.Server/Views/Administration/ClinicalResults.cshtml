@@ -1,0 +1,57 @@
+﻿@model List<Hospital.Server.Models.AdminViewModels.ResultViewModel>
+@using Hospital.DatabaseModels
+@using System.Linq;
+@using Hospital.Data.Constants
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @if (User.IsInRole(GlobalConstants.adminRoleName))
+        {
+            <div class="col-lg-6">
+                <a href="@Url.Action("Patients", "Administration")" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Ем нәтижесін қосу</a>
+            </div>
+        }
+        <div class="col-lg-6">
+          
+        </div>
+    </div>
+    </br>
+    <div style="height: 800px; overflow: auto">
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Емделуші</th>
+                    <th>Статусы</th>
+                    <th>Күні</th>
+                    <th>Жүктеу</th>
+                    <th>Жою</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model)
+                {
+                <tr>
+                    <td>@result.Id</td>
+                    <td>@result.Patient.UserName</td>
+                    <td><span class="glyphicon glyphicon-refresh" aria-hidden="true">@result.StatusResult</span></td>
+                    <td>@result.AddedOn</td>
+                    @if (result.StatusResult == StatusResult.Ready)
+                    {
+                        <td><a href="@Url.Action("DownloadResult", "ClinicalResults", new { id = result.Id })" class="fa fa-file-pdf-o"></a></td>
+                    }
+                    else
+                    {
+                        <td>---</td>
+                    }
+                    <td><a href="@Url.Action("Delete", "Administration", new { id = result.Id })" class="fa fa-times"></a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

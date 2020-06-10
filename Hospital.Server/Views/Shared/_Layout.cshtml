@@ -1,0 +1,218 @@
+﻿@using Hospital.Data.Constants
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body class="home">
+
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+                <div class="logo">
+                    <a hef="home.html">
+                        <img src="~/Content/images/logo2.jpg" alt="merkery_logo" class="hidden-xs hidden-sm">
+                        <img src="images/circle-logo.png" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
+                    </a>
+                </div>
+                <div class="navi">
+                    <ul>
+                        <li class="@*active*@"><a href="@Url.Action("Index", "Home")"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Негізгі Бет</span></a></li>
+                        @{
+                            if (Request.IsAuthenticated && User.IsInRole(GlobalConstants.adminRoleName))
+                            {
+                                <li><a href="@Url.Action("ClinicalResults", "Administration")"><i class="fa fa-file-pdf-o"></i><span class="hidden-xs hidden-sm">Талдау нәтижелері</span></a></li>
+                                <li><a href="@Url.Action("AllTrials", "Administration")"><i class="fa fa-plus-square"></i><span class="hidden-xs hidden-sm">Ем түрлері</span></a></li>
+                                <li><a href="@Url.Action("AllDoctors", "Administration")"><i class="fa fa-user-md"></i><span class="hidden-xs hidden-sm">Дәрігерлер тізімі</span></a></li>
+                                <li><a href="@Url.Action("Messages", "Administration")"><i class="fa fa-user-md"></i><span class="hidden-xs hidden-sm">Хабарламалар</span></a></li>
+                            }
+                            else if (Request.IsAuthenticated && User.IsInRole(GlobalConstants.doctor))
+                            {
+                                <li><a href="@Url.Action("AllDoctors", "Administration")"><i class="fa fa-user-md"></i><span class="hidden-xs hidden-sm">Дәрігерлер тізімі</span></a></li>
+                                <li><a href="@Url.Action("ClinicalResults", "Administration")"><i class="fa fa-file-pdf-o"></i><span class="hidden-xs hidden-sm">Талдау нәтижелері</span></a></li>
+
+                            }
+                            else if (Request.IsAuthenticated && User.IsInRole(GlobalConstants.user))
+                            {
+                                <li><a href="@Url.Action("AllDoctors", "Administration")"><i class="fa fa-user-md"></i><span class="hidden-xs hidden-sm">Дәрігерлер тізімі</span></a></li>
+                                <li><a href="@Url.Action("ClinicalResults", "Administration")"><i class="fa fa-file-pdf-o"></i><span class="hidden-xs hidden-sm">Талдау нәтижелері</span></a></li>
+
+                            }
+                            else
+                            {
+
+                                <li><a href="@Url.Action("AllTrials", "ClinicalTrials")"><i class="fa fa-stethoscope" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Ем түрлері</span></a></li>
+                                <li><a href="@Url.Action("AllDoctors", "Doctors")"><i class="fa fa-user-md" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Дәрігерлер тізімі</span></a></li>
+                            }
+                            <li class="@*active*@"><a href="@Url.Action("About", "Home")"><i class="fa fa-user-md" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Біз жайында</span></a></li>
+                            <li class="@*active*@"><a href="@Url.Action("Contact", "Home")"><i class="fa fa-stethoscope" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Байланыс</span></a></li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-11 display-table-cell v-align">
+                <div class="row">
+                    <header>
+                        <div class="col-md-7">
+                            <nav class="navbar-default pull-left">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                            </nav>
+                            <div class="search hidden-xs hidden-sm">
+                                <input type="text" placeholder="Іздеу" id="search">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="header-rightside" style="margin-top:12px;">
+                                <ul class="list-inline header-top pull-right">
+                                    <li><a href="#" class="add-project" data-toggle="modal" data-target="#add_project">Бізбен байланыс</a></li>
+                                    @Html.Partial("_LoginPartial")
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="container body-content">
+                    @RenderBody()
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="add_project" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header login-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title text-center">Байланыс</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" placeholder="Аты-жөні" name="Name" id="name">
+                    <input type="text" placeholder="Email" name="Email" id="email">
+                    <input type="text" placeholder="Жасыңыз" name="Age" id="age">
+                    <textarea placeholder="Message"  id="message"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel" data-dismiss="modal">Жабу</button>
+                    <button type="button" class="add-project" data-dismiss="modal" onclick="Send()">Жіберу</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer  class="clearfix" style="background-color:#0e1a35">
+        <div id="footer-widgets">
+            <div class="container">
+                <div id="footer-wrapper">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <div id="meta-3" class="widget widgetFooter widget_meta">
+                                <h4 class="widgettitle">Маңызды беттер :</h4>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-home fa-fw"></i> Home</a></li>
+                                    <li><a href="#"><i class="fa fa-link"></i>   Privacy Policy</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope fa-fw"></i> Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div> <!-- end widget1 -->
+                        <div class="col-sm-6 col-md-3">
+                            <div id="recent-posts-3" class="widget widgetFooter widget_recent_entries">
+                                <h4 class="widgettitle">Әлеуметтік желі :</h4>
+                                <ul>
+                                    <li>
+                                        <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/" target="_blank"><i class="fa fa-youtube"></i> Youtube</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> <!-- end widget1 -->
+                        <div class="col-sm-6 col-md-6">
+                            <div id="meta-4" class="widget widgetFooter widget_meta">
+                                <h4 class="widgettitle">Жаңалықтарға жазылу :</h4>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">E-mail :</span>
+                                        <input class="form-control" placeholder="Write your email .." type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Phone  :</span>
+                                        <input class="form-control" placeholder="+000000" type="text">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button">Жазылу !</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="offcanvas"]').click(function () {
+                $("#navigation").toggleClass("hidden-xs");
+            });
+        });
+
+         function Send() {
+            var subb= $('#name').val(); 
+            var emaill = $('#email').val();
+             var msgg = $('#message').val();
+             var age = $('#age').val();
+             var posData = { Email: emaill, Name: subb, Message: msgg, Age: age };
+             $.ajax({
+                 type: "POST",  
+                 url: '@Url.Action("Send", "Home")',
+                 data: JSON.stringify(posData),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",  
+
+              //dataType: 'html',
+           
+                 success: function (response) {
+                     if (response == "ok") {
+                         console.log();
+                         alert("Сообщение отправлено");
+                     } else {
+                         alert("Ошибка сервера");
+                     }
+                 
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

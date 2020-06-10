@@ -1,0 +1,30 @@
+﻿@model List<Hospital.Server.Models.AdminViewModels.PatientViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<header>
+    <h1 style="text-align:center"></h1>
+</header>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6" style="margin-bottom:20px;">
+                <div class="input-group">
+                    <div>Емделушілер</div>
+                </div>
+            </div>
+        </div>
+            @foreach (var user in Model)
+            {
+        <div class="row">
+            <div class="col-md-6"><a href="@Url.Action("AddResult", "Administration", new { id = user.Id })">Нәтиже қосу</a></div>
+            <div class="col-md-6 col-md-offset-4" style="vertical-align: text-top;">@user.UserName</div>
+
+        </div>
+            }
+    </div>
+</section>

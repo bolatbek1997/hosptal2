@@ -1,0 +1,37 @@
+﻿@model Hospital.Server.Models.HomeViewModel
+@{
+    ViewBag.Title = "Жеке бет";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Құпия сөзді өзгерту</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Логин:</dt>
+        <dd>
+          @User.Identity.Name
+        </dd>
+
+
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Құпия сөз:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Құпия сөзді өзгерту", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+
+
+    </dl>
+</div>
